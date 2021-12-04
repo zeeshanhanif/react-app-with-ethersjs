@@ -11,12 +11,12 @@ export const useEagerConnect = (setErrorMessageFun)=>{
         (async ()=>{
             const isAuthorized = await injectedConnector.isAuthorized();
             console.log("isAuthorized= ",isAuthorized);
-            
-            await activate(injectedConnector, async (error) => {
-                console.log({ error });
-                //alert(error.message);
-                setErrorMessageFun(error.message);
-            });
+            if(isAuthorized) {
+                await activate(injectedConnector, async (error) => {
+                    console.log({ error });
+                    setErrorMessageFun(error.message);
+                });
+            }
         })();
     },[activate,setErrorMessageFun])
 }
